@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <meta name="description" content=" Movie Recommendation to provide you the personalized recommendations for your next movie">
+    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico"> -->
+    <!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png"> -->
+    <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json"> -->
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <header class="header-background">
+        <h1 class="header-title">Movie Recommendation System</h1>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="column">
+                <section class="section movies-section">
+                    <h2 class="movies-header">Movies You've Interacted With</h2>
+                    <div class="movies-container" style="max-height: 400px;overflow-y: auto;scrollbar-width: thin;scrollbar-color: #888 #f1f1f1;">
+                        {% for _, movie in already_rated.iterrows() %}
+                        <div class="movie">
+                            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+            <div class="column">
+                <section class="section recommendations-section">
+                    <h2 class="movies-header">Recommended Movies</h2>
+                    <div class="recommendations-container" style="max-height: 400px;overflow-y: auto;scrollbar-width: thin;scrollbar-color: #888 #f1f1f1;">
+                        {% for _, movie in recommendations.iterrows() %}
+                        <div class="recommendation">
+                            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+                            <h3 class = "movie-title">{{ movie.title }}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+            <div class="column">
+                <section class="section movies-section">
+                    <h2 class="movies-header">Pick a Movie!</h2>
+                    <div class="" style="display: flex;overflow-x: auto;max-width: 100%; padding-bottom: 1rem;">
+                        {% for _, movie in all_movies.iterrows() %}
+                        <div class="movie" style="flex-shrink: 0; margin-right: 1rem;">
+                            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+    </div>
+    <!-- <footer class="footer-background">
+        <div class="footer-content">
+        </div>
+    </footer> -->
+
+    <script>
+        function generateRecommendations() {
+            alert('Generating recommendations...');
+        }
+    </script>
+</body>
+</html>
