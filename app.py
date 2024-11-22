@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from models.recommender import get_recommendations
 from models.llm_api import predict_preferences
 from models.data_manager import load_dataset, add_rating
+import requests
 
 app = Flask(__name__)
 # app.secret_key = '' 
@@ -9,6 +10,8 @@ app = Flask(__name__)
 # Load static dataset at startup
 static_data = load_dataset()
 dynamic_data = []
+
+API_URL = f"http://www.omdbapi.com/?apikey=e76a60bc&r=json&t="
 
 import pandas as pd
 import numpy as np
@@ -79,6 +82,17 @@ def recommend_movies(predictions_df, user_id, movies_df, original_ratings_df, nu
                        iloc[:num_recommendations, :-1])
 
     return user_full, recommendations
+
+@app.route('/api')
+def get_data(movie_name):
+    try:
+        response = requests.get(API_URL+movie_name.split('(')[0].rstrip().replace(' ', '+'))
+        response.raise_for_status()  # Raise an error for bad responses (4xx or 5xx)
+        data = response.json()  # Assuming the API returns JSON data
+        return data['Poster']
+        return render_template('api.html', data_returned=data['Poster'])  # Return the data as JSON
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": str(e)}), 500  # Handle exceptions and return an error response
 
 
 @app.route('/')
