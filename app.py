@@ -4,7 +4,7 @@ from models.llm_api import predict_preferences
 from models.data_manager import load_dataset, add_rating
 
 app = Flask(__name__)
-app.secret_key = '' 
+# app.secret_key = '' 
 
 # Load static dataset at startup
 static_data = load_dataset()
@@ -114,4 +114,8 @@ def authenticate():
     return redirect(url_for('main'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    app.debug = True
+    app.run()
