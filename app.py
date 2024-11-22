@@ -100,7 +100,12 @@ def main():
     #     recommendations = get_recommendations(session['user_id'], dynamic_data)
     # else:
     #     recommendations = predict_preferences(session['user_id'], static_data)
-    user_id = 1
+    if session['user_id'] == 'login':
+        user_id = 1
+    elif session['user_id'] == 'login1':
+        user_id = 2
+    else:
+        user_id = 3
     already_rated, recommendations = recommend_movies(preds_df, user_id, movies_df, df)
     all_movies = movies_df[['title','poster']]
     return render_template('index.html', user_id=user_id, already_rated=already_rated, recommendations=recommendations, all_movies=all_movies)
